@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+	<ui:composition template="_template.xhtml">
+	
+
+		<ui:define name="titulo">
+				Novo Produto
+		</ui:define>
+
+		<ui:define name="conteudo">
+		
+			<h:form id="addProdutos">
+
+				<p:messages id="messages" />
+
+				<p:fieldset legend="Dados Produtos">
+					<h:panelGrid columns="2">
+
+						<p:outputLabel value="Nome:" for="nome" />
+						<p:inputText id="nome" value="#{produtoBean.produto.nome}" required="true" />
+
+						<p:outputLabel value="Descrição" for="descricao" />
+						<p:inputText id="descricao" value="#{produtoBean.produto.descricao}" />
+
+						<p:outputLabel value="Preço:" for="preco" />
+						<p:inputText id="preco" value="#{produtoBean.produto.preco}" />
+						
+						<p:outputLabel value="Quantidade em estoque:" for="qtdEstoque" />
+						<p:inputText id="qtdEstoque" value="#{produtoBean.produto.qtdEstoque}" />
+
+					</h:panelGrid>
+
+				</p:fieldset>
+	
+				
+				<p:commandButton value="Gravar" action="#{produtoBean.gravar}" process="@form" 
+				update="@form :formTabelaProduto:tabelaprodutos"/>
+
+			</h:form>
+	
+			<h:form id="formTabelaProduto">
+				<p:dataTable value="#{produtoBean.produtos}" var="produto" id="tabelaprodutos">
+					<p:column headerText="Nome">
+						<h:outputText value="#{produto.nome}" />
+					</p:column>
+					<p:column headerText="Descrição">
+						<h:outputText value="#{produto.descricao}" />
+					</p:column>
+					<p:column headerText="Preço">
+						<h:outputText value="#{produto.preco}">
+							<f:convertNumber type="currency" pattern="R$ #0.00"
+								currencySymbol="R$" locale="pt_BR" />
+						</h:outputText>
+					</p:column>
+					<p:column headerText="Quantidade em Estoque">
+						<h:outputText value="#{produto.qtdEstoque}"/>
+					</p:column>
+					<p:column headerText="Alterar">
+						<h:commandLink value="Alterar" action="#{produtoBean.carregar(produto)}"/>
+					</p:column>
+					<p:column headerText="Remover">
+						<h:commandLink value="Remover" action="#{produtoBean.remover(produto)}"/>
+					</p:column>
+				</p:dataTable>
+			</h:form>
+			
+		</ui:define>
+	</ui:composition>
+
+</html>
